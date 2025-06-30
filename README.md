@@ -4,6 +4,36 @@
 `DnDCompanionBot` is a telegram bot to play Dungeons and Dragons. In the future, this bot should be able to track
 campaigns, character sheets and help the DM with management tasks.
 
+## Features
+
+- Character management
+  - Import characters from external sources
+  - Track character stats, equipment, and spells
+  - Manage character inventory
+  - Track character experience and level progression
+- Campaign control
+  - Create and manage campaigns
+  - Track campaign progress
+  - Manage campaign NPCs and monsters
+- Adventure management
+  - Create and manage adventures
+  - Import adventures from external sources
+  - Track adventure progress
+  - Manage adventure NPCs, monsters, and encounters
+- Dice rolling
+  - Roll dice for attacks, saving throws, and skill checks
+- Battle tracking
+  - Track initiative order
+  - Manage combat encounters
+  - Track damage and healing
+- Character linking
+  - Link characters to campaigns
+  - Track character progress across campaigns
+- Import functionality
+  - Import characters from external sources
+  - Import NPCs and monsters from external sources
+  - Import adventures from external sources
+
 ## Commands
 General commands | Action
 --------|-------

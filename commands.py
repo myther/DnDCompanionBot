@@ -5,6 +5,9 @@ from handlers.character import handler as character_handler
 from handlers.turns import handler as turn_handler
 from handlers.dm import handler as dm_handler
 from handlers.campaign import handler as campaign_handler
+from handlers.npc.handlers import handler as npc_handler
+from handlers.monster.handlers import handler as monster_handler
+from handlers.adventure.handlers import handler as adventure_handler
 
 # Each command should be defined using the expression below:
 #
@@ -21,7 +24,26 @@ GENERAL_COMMANDS = {
     "/start": (None, None, "starts the DnDCompanionBot"),
     "/roll": (roll_handler, ["<expression>"], "rolls the dice using the [dice notation](https://en.wikipedia.org/wiki/Dice_notation)"),
     "/charsheet": (charsheet_handler, ["<username>"], "returns the character sheet associated with username"),
-    "/help": (None, None, "shows this help message")
+    "/help": (None, None, "shows this help message"),
+    "/create_npc": (npc_handler, ["<name>", "<race>", "<class>"], "creates a new NPC character"),
+    "/list_npcs": (npc_handler, None, "lists all NPCs in the current campaign"),
+    "/view_npc": (npc_handler, ["<name>"], "view detailed information about an NPC"),
+    "/update_npc": (npc_handler, ["<name>", "<attribute>", "<value>"], "update NPC attributes"),
+    "/delete_npc": (npc_handler, ["<name>"], "delete an NPC from the campaign"),
+    "/create_monster": (monster_handler, ["<name>", "<type>", "<challenge_rating>"], "creates a new monster"),
+    "/list_monsters": (monster_handler, None, "lists all monsters in the current campaign"),
+    "/view_monster": (monster_handler, ["<name>"], "view detailed information about a monster"),
+    "/update_monster": (monster_handler, ["<name>", "<attribute>", "<value>"], "update monster attributes"),
+    "/delete_monster": (monster_handler, ["<name>"], "delete a monster from the campaign"),
+    "/import_monster": (monster_handler, ["<url>"], "import a monster from external source"),
+    "/create_adventure": (adventure_handler, ["<name>", "<description>", "<level_range>"], "creates a new adventure with the specified name, description, and level range"),
+    "/list_adventures": (adventure_handler, None, "lists all adventures in the current campaign with their names and level ranges"),
+    "/view_adventure": (adventure_handler, ["<name>"], "view detailed information about an adventure including NPCs, monsters, and encounters"),
+    "/update_adventure": (adventure_handler, ["<name>", "<attribute>", "<value>"], "update adventure attributes such as description, level range, or status"),
+    "/delete_adventure": (adventure_handler, ["<name>"], "delete an adventure from the campaign"),
+    "/import_adventure": (adventure_handler, ["<url>"], "import an adventure from an external source, supports D&D 5e API"),
+    "/start_adventure": (adventure_handler, ["<name>"], "mark an adventure as started, allowing tracking of progress"),
+    "/end_adventure": (adventure_handler, ["<name>"], "mark an adventure as completed and finalize its status")
 }
 
 CAMPAIGN_COMMANDS = {
@@ -40,7 +62,7 @@ CAMPAIGN_COMMANDS = {
 CHARACTER_COMMANDS = {
     "/import_char": (character_handler, ["<url>"], "imports the JSON data of a character from a URL"),
     "/link_char": (character_handler, ["<char_id>", "(username)"], "links character to target username or self username"),
-    "/status": (character_handler, ["<username|character>"], "shows the list of weapons of a character"),
+    "/status": (character_handler, ["<username|character>"], "shows the status of a character"),
     "/weapons": (character_handler, ["<username|character>"], "shows the list of weapons of a character"),
     "/spells": (character_handler, ["<username|character>"], "shows the list of damage spells of a character"),
     "/currency": (character_handler, ["<username|character>"], "shows the currency pouch of a character"),
@@ -80,7 +102,7 @@ def is_command(update):
     if update.message is None:
         return False
 
-    return update.message.text != None and update.message.text != '' \
+    return update.message.text is not None and update.message.text != '' \
             and update.message.text.startswith('/')
 
 def parse_command(txt_message):
